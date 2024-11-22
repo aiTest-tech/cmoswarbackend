@@ -6,7 +6,7 @@ from deep_translator import GoogleTranslator
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from scipy.special import softmax
 from .serializers import AnalyzeSerializer
-from .models import SentimentAnalysis
+from .models import SentimentData
 import json
 from rest_framework.permissions import IsAuthenticated
 
@@ -44,7 +44,7 @@ class AnalyzeSentiment(APIView):
                 max_label = max(sentiment, key=sentiment.get)
                 max_score = sentiment[max_label]
 
-                sentiment_record = SentimentAnalysis.objects.create(
+                sentiment_record = SentimentData.objects.create(
                     lang=lang,
                     text_data=text_data,
                     label=max_label,

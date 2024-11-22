@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import TextData
+from .models import WTC
 
-class TextDataSerializer(serializers.ModelSerializer):
+class WTCSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TextData
+        model = WTC
         fields = ['id', 'content', 'lang', 'project', 'name', 'occupation', 'address', 'phone',
             'district_corporation', 'taluka_zone', 'village_area', 'subject', 'department',
             'email', 'mode', 'created_at']

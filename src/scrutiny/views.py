@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ScrutinyRequestSerializer
 from .models import *  # Update import to use the newly defined model
-from app.models import AudioRecord
+from app.models import ASRData
 from drf_yasg.utils import swagger_auto_schema
 
 # Dictionary to map department numbers to department names
@@ -58,7 +58,7 @@ class ScrutinyDepartmentRoutingView(APIView):
         text = serializer.validated_data['text']
 
         try:
-            record = ScrutinyRecord.objects.get(id=record_id)
+            record = ASRData.objects.get(id=record_id)
 
             # Simulated LSTM results for demonstration
             lstm_result_1 = "Accept"

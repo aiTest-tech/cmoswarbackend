@@ -18,7 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import AudioRecord
+from .models import ASRData
 from .serializers import *
 
 
@@ -32,11 +32,11 @@ class ProcessAudioView(APIView):
     parser_classes = [MultiPartParser]
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(request_body=AudioRecordSerializer)
+    @swagger_auto_schema(request_body=ASRDataSerializer)
     def post(self, request):
 
         print("request.data:", request.data)
-        serializer = AudioRecordSerializer(data=request.data)
+        serializer = ASRDataSerializer(data=request.data)
 
         # Validate incoming data using the serializer
         if not serializer.is_valid():
@@ -90,7 +90,7 @@ class ProcessAudioView(APIView):
         response_data = response.json()
         source_text = response_data['pipelineResponse'][0]['output'][0]['source']
 
-        record = AudioRecord.objects.create(source=source_text, audio_file=file)
+        record = ASRData.objects.create(source=source_text, audio_file=file)
 
         return Response(
             {"text": source_text, "id": record.id},

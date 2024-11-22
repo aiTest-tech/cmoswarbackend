@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-from .models import TextData
-from .serializers import TextDataSerializer
+from .models import WTC
+from .serializers import WTCSerializer
 import os
 import random
 import string
@@ -22,13 +22,13 @@ class TextDataView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        texts = TextData.objects.all()
-        serializer = TextDataSerializer(texts, many=True)
+        texts = WTC.objects.all()
+        serializer = WTCSerializer(texts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=TextDataSerializer)
+    @swagger_auto_schema(request_body=WTCSerializer)
     def post(self, request):
-        serializer = TextDataSerializer(data=request.data)
+        serializer = WTCSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

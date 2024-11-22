@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import AudioRecord
+from .models import *
 
-class AudioRecordSerializer(serializers.Serializer):
+class ASRDataSerializer(serializers.Serializer):
     file = serializers.FileField(required = True)
     lang = serializers.CharField(required = True)
 

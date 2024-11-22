@@ -1,28 +1,24 @@
 from django.db import models
+from auth_app.models import User, Project
 
-# Create your models here.
-from django.db import models
-
-class TextData(models.Model):
+class WTC(models.Model):
+    id = models.AutoField(primary_key=True)
     content = models.TextField()
-    lang = models.CharField(max_length=10, default='en')  # For storing language codes like 'en', 'fr', etc.
-    project = models.CharField(max_length=100, default='CMO-SWAR')
-
-    ############
-    name = models.CharField(max_length=100, blank=True, null=True)
-    occupation = models.CharField(max_length=100, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)  # For storing phone numbers
-    district_corporation = models.CharField(max_length=100, blank=True, null=True)
-    taluka_zone = models.CharField(max_length=100, blank=True, null=True)
-    village_area = models.CharField(max_length=100, blank=True, null=True)
-    subject = models.CharField(max_length=200, blank=True, null=True)
-    department = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)  # Email validation
-    mode = models.CharField(max_length=50, blank=True, null=True)
-    ############
-
+    lang = models.CharField(max_length=50)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    occupation = models.CharField(max_length=100)
+    address = models.TextField()
+    phone = models.CharField(max_length=15)
+    district_corporation = models.CharField(max_length=100)
+    taluka_zone = models.CharField(max_length=100)
+    village_area = models.CharField(max_length=100)
+    subject = models.TextField()
+    department = models.CharField(max_length=100)
+    email = models.EmailField()
+    mode = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.content[:50]
+        return f"WTC Entry {self.id} - {self.name}"
