@@ -2,15 +2,12 @@ import base64
 import json
 import os
 import requests
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
-
 from drf_yasg.utils import swagger_auto_schema
-
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser
@@ -20,6 +17,7 @@ from rest_framework.views import APIView
 
 from .models import AudioRecord
 from .serializers import *
+import wave
 
 
 ASR_API_URL = "https://dhruva-api.bhashini.gov.in/services/inference/pipeline"
@@ -53,6 +51,21 @@ class ProcessAudioView(APIView):
             )
 
         file = serializer.validated_data['file']
+        # Open the WAV file
+
+        with wave.open(file, 'rb') as audio:
+            # Get the number of frames and frame rate
+            n_frames = audio.getnframes()
+            frame_rate = audio.getframerate()
+
+            # Calculate the duration in seconds
+            duration_seconds = n_frames / frame_rate
+
+            # Convert seconds to minutes
+            duration_minutes = duration_seconds / 60
+
+        print(f"Duration: {duration_minutes:.2f} minutes")
+
         lang = serializer.validated_data['lang']
 
         base64_audio = base64.b64encode(file.read()).decode('utf-8')
